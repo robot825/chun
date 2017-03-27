@@ -12,16 +12,16 @@
 #include <signal.h>
 
 #define MAXLINE  511
-#define MAX_SOCK 1024 // ¼Ö¶ó¸®½ºÀÇ °æ¿ì 64
+#define MAX_SOCK 1024 // ì†”ë¼ë¦¬ìŠ¤ì˜ ê²½ìš° 64
 
 char *EXIT_STRING = "exit";  
-char *START_STRING = "¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì\n¢Ì¢Ì¢Ì¢Ì¢Ì Welcome to Linux Chatting World! ¢Ì¢Ì¢Ì¢Ì¢Ì\n¢Ì¢Ì¢Ì¢Ì¢Ì ver 1.0 	2005/12/21          ¢Ì¢Ì¢Ì¢Ì¢Ì\n¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì ¢Ì¢Ì¢Ì¢Ì¢Ì\n";		
-char *MAIN_MENU="\t¼­ºñ½º ¹øÈ£¸¦ ¼±ÅÃÇÏ¼¼¿ä.\n 1.Ã¤ÆÃ¹æ °³¼³ \n 2.Ã¤ÆÃ Âü¿©\n 3.È¸¿ø º¸±â\n\n\n<¹øÈ£/¸í·É(go,exit)> "; 
+char *START_STRING = "â–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–©\nâ–©â–©â–©â–©â–© Welcome to Linux Chatting World! â–©â–©â–©â–©â–©\nâ–©â–©â–©â–©â–© ver 1.0           â–©â–©â–©â–©â–©\nâ–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–© â–©â–©â–©â–©â–©\n";		
+char *MAIN_MENU="\tì„œë¹„ìŠ¤ ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ì„¸ìš”.\n 1.ì±„íŒ…ë°© ê°œì„¤ \n 2.ì±„íŒ… ì°¸ì—¬\n 3.íšŒì› ë³´ê¸°\n\n\n<ë²ˆí˜¸/ëª…ë ¹(go,exit)> "; 
 char *CREAT_ROOM="enter chatting room subject ";
     
-int maxfdp1;                // ÃÖ´ë ¼ÒÄÏ¹øÈ£ +1
-int num_chat = 0;          // Ã¤ÆÃ Âü°¡ÀÚ ¼ö
-int clisock_list[MAX_SOCK]; // Ã¤ÆÃ¿¡ Âü°¡ÀÚ ¼ÒÄÏ¹øÈ£ ¸ñ·Ï
+int maxfdp1;                // ìµœëŒ€ ì†Œì¼“ë²ˆí˜¸ +1
+int num_chat = 0;          // ì±„íŒ… ì°¸ê°€ì ìˆ˜
+int clisock_list[MAX_SOCK]; // ì±„íŒ…ì— ì°¸ê°€ì ì†Œì¼“ë²ˆí˜¸ ëª©ë¡
 int listen_sock,addrlen = sizeof(struct sockaddr_in);
 int serv_port=2402;
 int rooms_num=0;
@@ -37,14 +37,14 @@ struct chat_room{
 
 struct chat_room chat_rooms[MAXLINE];
 
-// »õ·Î¿î Ã¤ÆÃ Âü°¡ÀÚ Ã³¸®
+// ìƒˆë¡œìš´ ì±„íŒ… ì°¸ê°€ì ì²˜ë¦¬
 void addClient(int s, struct sockaddr_in *newcliaddr);
 
-int getmax();               // ÃÖ´ë ¼ÒÄÏ ¹øÈ£ Ã£±â
+int getmax();               // ìµœëŒ€ ì†Œì¼“ ë²ˆí˜¸ ì°¾ê¸°
 
-void removeClient(int s);    // Ã¤ÆÃ Å»Åğ Ã³¸® ÇÔ¼ö
+void removeClient(int s);    // ì±„íŒ… íƒˆí‡´ ì²˜ë¦¬ í•¨ìˆ˜
 
-int tcp_listen(int host, int port, int backlog); // ¼ÒÄÏ »ı¼º ¹× listen
+int tcp_listen(int host, int port, int backlog); // ì†Œì¼“ ìƒì„± ë° listen
 
 void errquit(char *mesg) { perror(mesg); exit(1); }
 
@@ -54,7 +54,7 @@ void creat_room(int sock);
 
 void out_room_list(int sock);
 
-void sig_pipe(void){	//¾ÈÁ¤ÀûÀÎ µ¿ÀÛÀ§ÇØ SIPPIPE ¹«½Ã
+void sig_pipe(void){	//ì•ˆì •ì ì¸ ë™ì‘ìœ„í•´ SIPPIPE ë¬´ì‹œ
 	struct sigaction spipe_act;
 	spipe_act.sa_handler = SIG_IGN;
 	spipe_act.sa_flags = 0;
@@ -69,18 +69,18 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in cliaddr;
 	char buf[MAXLINE+1];
 	int i, j, k, l, nbyte, accp_sock; 	
-	int flag;   //clientÀÇ Ã¤ÆÃ Âü¿© ¿©ºÎ ÆÇ´Ü
-	fd_set read_fds;  // ÀĞ±â¸¦ °¨ÁöÇÒ fd_set ±¸Á¶Ã¼
+	int flag;   //clientì˜ ì±„íŒ… ì°¸ì—¬ ì—¬ë¶€ íŒë‹¨
+	fd_set read_fds;  // ì½ê¸°ë¥¼ ê°ì§€í•  fd_set êµ¬ì¡°ì²´
 
 	if(argc != 1) {
-		printf("»ç¿ë¹ı :%s \n", argv[0]);
+		printf("ì‚¬ìš©ë²• :%s \n", argv[0]);
 		exit(0);
 	}
-	sig_pipe();	//SIG_PIPE ¹«½Ã, ¾ÈÁ¤ÀûÀÎ µ¿ÀÛÀ§ÇØ
+	sig_pipe();	//SIG_PIPE ë¬´ì‹œ, ì•ˆì •ì ì¸ ë™ì‘ìœ„í•´
 	if((chat_log=fopen("chat_serv.log","a+"))==NULL)
 		errquit("loging failed!!");
 
-	get_time(); //¼­¹öÇÁ·Î±×·¥ ½ÃÀÛ ½Ã°£À» logÆÄÀÏ¿¡ ÀúÀå
+	get_time(); //ì„œë²„í”„ë¡œê·¸ë¨ ì‹œì‘ ì‹œê°„ì„ logíŒŒì¼ì— ì €ì¥
 	fprintf(chat_log,"%s \t \n","Chatting Server Start");
 	fflush(chat_log);
 
@@ -93,12 +93,12 @@ int main(int argc, char *argv[]) {
 		for(i=0; i<num_chat; i++)
 			FD_SET(clisock_list[i], &read_fds);
 
-		maxfdp1 = getmax() + 1;     // maxfdp1 Àç °è»ê
+		maxfdp1 = getmax() + 1;     // maxfdp1 ì¬ ê³„ì‚°
 		puts("wait for client");
 
 		if(select(maxfdp1, &read_fds,NULL,NULL,NULL)<0)
 			errquit("select fail");
-		// »õ·Î¿î »ç¿ëÀÚ°¡ ¿¬°á ¿äÃ»½Ã
+		// ìƒˆë¡œìš´ ì‚¬ìš©ìê°€ ì—°ê²° ìš”ì²­ì‹œ
 		if(FD_ISSET(listen_sock, &read_fds)) {
 
 			accp_sock=accept(listen_sock, (struct sockaddr *)&cliaddr, &addrlen);
@@ -109,22 +109,22 @@ int main(int argc, char *argv[]) {
 			addClient(accp_sock,&cliaddr);
 			send(accp_sock, START_STRING, strlen(START_STRING), 0);
 			send(accp_sock, MAIN_MENU, strlen(MAIN_MENU),0);	
-			printf("%d¹øÂ° »ç¿ëÀÚ Ãß°¡.\n", num_chat);
+			printf("%dë²ˆì§¸ ì‚¬ìš©ì ì¶”ê°€.\n", num_chat);
 		}
 
-        // Å¬¶óÀÌ¾ğÆ®°¡ º¸³½ ¸Ş½ÃÁö¸¦ ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¹æ¼Û
+        // í´ë¼ì´ì–¸íŠ¸ê°€ ë³´ë‚¸ ë©”ì‹œì§€ë¥¼ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë°©ì†¡
 		for(i = 0; i < num_chat; i++) {
 
 			if(FD_ISSET(clisock_list[i], &read_fds)) {
 				nbyte = recv(clisock_list[i], buf, MAXLINE, 0);
 
                 		if(nbyte<= 0) {
-					removeClient(i);    // Å¬¶óÀÌ¾ğÆ®ÀÇ Á¾·á
+					removeClient(i);    // í´ë¼ì´ì–¸íŠ¸ì˜ ì¢…ë£Œ
 					continue;
 				}
 
 				buf[nbyte] = 0;
-				//Ã¤ÆÃ¹æ¿¡ Âü°¡ÇÑ clientÀÎ °æ¿ì 
+				//ì±„íŒ…ë°©ì— ì°¸ê°€í•œ clientì¸ ê²½ìš° 
 				if(flag==2){
 					printf("flag ==2\n");
 					if(strstr(buf,"0")!=NULL){
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 						if(clisock_list[i]==chat_rooms[j].user_list[k]){
 							flag=1;
 							if(strstr(buf,EXIT_STRING) != NULL) {
-								removeClient(i);    // Å¬¶óÀÌ¾ğÆ®ÀÇ Á¾·á
+								removeClient(i);    // í´ë¼ì´ì–¸íŠ¸ì˜ ì¢…ë£Œ
 								break;
 							}
 							for (l = 0; l <chat_rooms[j].user_cnt; l++)
@@ -152,14 +152,14 @@ int main(int argc, char *argv[]) {
 					continue;
 				}
 				
-        // Á¾·á¹®ÀÚ Ã³¸®
+        // ì¢…ë£Œë¬¸ì ì²˜ë¦¬
 				if(strstr(buf,EXIT_STRING) != NULL) {
-					removeClient(i);    // Å¬¶óÀÌ¾ğÆ®ÀÇ Á¾·á
+					removeClient(i);    // í´ë¼ì´ì–¸íŠ¸ì˜ ì¢…ë£Œ
 					continue;
 				}
 				
 				else if(strstr(buf,"1")!=NULL){
-					send(clisock_list[i],"¹æ Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä :",sizeof("¹æ Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä :"),0);
+					send(clisock_list[i],"ë°© ì œëª©ì„ ì…ë ¥í•˜ì„¸ìš” :",sizeof("ë°© ì œëª©ì„ ì…ë ¥í•˜ì„¸ìš” :"),0);
 					creat_room(clisock_list[i]);
 				}
 				else if(strstr(buf,"2") != NULL) {
@@ -173,7 +173,7 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-// »õ·Î¿î Ã¤ÆÃ Âü°¡ÀÚ Ã³¸®
+// ìƒˆë¡œìš´ ì±„íŒ… ì°¸ê°€ì ì²˜ë¦¬
 void addClient(int s, struct sockaddr_in *newcliaddr) {
 	char buf[20];
 	inet_ntop(AF_INET,&newcliaddr->sin_addr,buf,sizeof(buf));
@@ -181,17 +181,17 @@ void addClient(int s, struct sockaddr_in *newcliaddr) {
 	fprintf(chat_log,"%-11s \t %s\n","connect",buf);
 	fflush(chat_log);
 
-     // Ã¤ÆÃ Å¬¶óÀÌ¾ğÆ® ¸ñ·Ï¿¡ Ãß°¡
+     // ì±„íŒ… í´ë¼ì´ì–¸íŠ¸ ëª©ë¡ì— ì¶”ê°€
 	clisock_list[num_chat] = s;
 	num_chat++;
 }
 
-// Ã¤ÆÃ Å»Åğ Ã³¸®
+// ì±„íŒ… íƒˆí‡´ ì²˜ë¦¬
 void removeClient(int s) {
 	char buf[20];
 	struct sockaddr_in del_cliaddr;
 
-	// Å»ÅğÇÑ È¸¿øÀÇ ½Ã°£°ú IP ÁÖ¼Ò °¡Á®¿À±â 
+	// íƒˆí‡´í•œ íšŒì›ì˜ ì‹œê°„ê³¼ IP ì£¼ì†Œ ê°€ì ¸ì˜¤ê¸° 
 	getpeername(clisock_list[s],(struct sockaddr*)&del_cliaddr,&addrlen);
 
 //	printf("%d",del_cliaddr.sin_addr);
@@ -205,12 +205,12 @@ void removeClient(int s) {
 		clisock_list[s] = clisock_list[num_chat-1];
 	num_chat--;
 
-	printf("Ã¤ÆÃ Âü°¡ÀÚ 1¸í Å»Åğ. ÇöÀç Âü°¡ÀÚ ¼ö = %d\n", num_chat);
+	printf("ì±„íŒ… ì°¸ê°€ì 1ëª… íƒˆí‡´. í˜„ì¬ ì°¸ê°€ì ìˆ˜ = %d\n", num_chat);
 }
 
-// ÃÖ´ë ¼ÒÄÏ¹øÈ£ Ã£±â
+// ìµœëŒ€ ì†Œì¼“ë²ˆí˜¸ ì°¾ê¸°
 int getmax() {
-    // Minimum ¼ÒÄÏ¹øÈ£´Â °¡Á¤ ¸ÕÀú »ı¼ºµÈ listen_sock
+    // Minimum ì†Œì¼“ë²ˆí˜¸ëŠ” ê°€ì • ë¨¼ì € ìƒì„±ëœ listen_sock
 	int max = listen_sock;
 	int i;
 	
@@ -220,10 +220,10 @@ int getmax() {
 		return max;
 }
 
-// listen ¼ÒÄÏ »ı¼º ¹× listen
+// listen ì†Œì¼“ ìƒì„± ë° listen
 int  tcp_listen(int host, int port, int backlog) {
 	int sd;
-	int opt_yes=1; 		// ¼ÒÄÏÀÇ ¿É¼Ç°ª
+	int opt_yes=1; 		// ì†Œì¼“ì˜ ì˜µì…˜ê°’
 	struct sockaddr_in servaddr;
 
 	sd = socket(AF_INET, SOCK_STREAM, 0);
@@ -232,15 +232,15 @@ int  tcp_listen(int host, int port, int backlog) {
 		perror("socket fail");
 		exit(1);
 	}
-	// ¼ÒÄÏÀÇ ¿É¼Ç º¯°æ TIME-WAIT ½Ã¿¡µµ Àç½ÇÇà °¡´É
+	// ì†Œì¼“ì˜ ì˜µì…˜ ë³€ê²½ TIME-WAIT ì‹œì—ë„ ì¬ì‹¤í–‰ ê°€ëŠ¥
 	if (setsockopt(sd, SOL_SOCKET,SO_REUSEADDR,&opt_yes,sizeof(opt_yes))<0)
 		printf("error : reuse setsockopt\n");
 
-	//SO_KEEPALIVE ÁöÁ¤ .»ó´ë¹æ°ú ¿¬°á»óÅÂ Á¡°Ë
+	//SO_KEEPALIVE ì§€ì • .ìƒëŒ€ë°©ê³¼ ì—°ê²°ìƒíƒœ ì ê²€
 	if (setsockopt(sd, SOL_SOCKET,SO_KEEPALIVE,&opt_yes,sizeof(opt_yes))<0)
 		printf("error ; keepalive \n");
 
-    // servaddr ±¸Á¶Ã¼ÀÇ ³»¿ë ¼¼ÆÃ
+    // servaddr êµ¬ì¡°ì²´ì˜ ë‚´ìš© ì„¸íŒ…
 	bzero((char *)&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(host);
@@ -249,7 +249,7 @@ int  tcp_listen(int host, int port, int backlog) {
 	if (bind(sd , (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
 		perror("bind fail");  exit(1);
 	}
-    // Å¬¶óÀÌ¾ğÆ®·ÎºÎÅÍ ¿¬°á¿äÃ»À» ±â´Ù¸²
+    // í´ë¼ì´ì–¸íŠ¸ë¡œë¶€í„° ì—°ê²°ìš”ì²­ì„ ê¸°ë‹¤ë¦¼
 	listen(sd, backlog);
 	return sd;
 }
@@ -265,7 +265,7 @@ void get_time(){
 	fflush(chat_log);	
 }
 
-void creat_room(int sock){     //Ã¤ÆÃ¹æÀ» °³¼³ÇØ ÁÖ´Â ÇÔ¼ö
+void creat_room(int sock){     //ì±„íŒ…ë°©ì„ ê°œì„¤í•´ ì£¼ëŠ” í•¨ìˆ˜
 //	chat_rooms[rooms_num].user_cnt=0;	
 	printf("creat room %d %d\n",sock,chat_rooms[rooms_num].user_cnt);
 	while(1){
@@ -285,7 +285,7 @@ void creat_room(int sock){     //Ã¤ÆÃ¹æÀ» °³¼³ÇØ ÁÖ´Â ÇÔ¼ö
 	
 }
 
-void out_room_list(int sock){ //Ã¤ÆÃ¹æ ¸ñ·ÏÀ» º¸¿©ÁÖ´Â ÇÔ¼ö 
+void out_room_list(int sock){ //ì±„íŒ…ë°© ëª©ë¡ì„ ë³´ì—¬ì£¼ëŠ” í•¨ìˆ˜ 
 	int j;
 	char room_list[10][MAXLINE];
 	if(rooms_num<1)
