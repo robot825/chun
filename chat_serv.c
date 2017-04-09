@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 					if(strstr(buf,"0")!=NULL){
 						chat_rooms[0].user_list[chat_rooms[0].user_cnt]=clisock_list[i];
 						chat_rooms[0].user_cnt++;
-						printf(" %d   %d \n",chat_rooms[0].user_cnt);
+						printf(" %d    \n",chat_rooms[0].user_cnt);
 					}
 				}	
 				for(j=0,flag=0;j<rooms_num;j++){
